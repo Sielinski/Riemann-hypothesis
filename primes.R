@@ -29,7 +29,7 @@ PCF <- function(x) {
   length(p_x) - (0.5 * (tail(p_x, 1) == x))
 }
 
-# Reimann's counting function J(x)
+# Reimann's prime counting function J(x)
 # From *Prime Obsession*, p 299 (Expression 19-1)
 J <- function(x) {
   i <- 1        # ith term
@@ -238,6 +238,7 @@ secondary_terms(x, 50)
 secondary_terms(x, 50) %>% plot(type = 'l')
 
 # See *Riemann's Zeta Function*, H.M. Edwards, p 34, formula (3)
+# See also https://math.stackexchange.com/questions/269997/two-representations-of-the-prime-counting-function/291201#291201
 J_error <- function(x, y = 10) {
   J_mu(x) -
     sum(secondary_terms(x, y))
