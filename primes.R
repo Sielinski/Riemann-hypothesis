@@ -234,22 +234,34 @@ secondary_terms <- function(x, y = 10) {
 
 # see *Prime Obsession*, p 340 - 341
 x <- 20
-secondary_terms(x, 50)
+secondary_terms(x, 50) %>% sum()
 secondary_terms(x, 50) %>% plot(type = 'l')
 
-# See *Riemann's Zeta Function*, H.M. Edwards, p 34, formula (3)
-# See also https://math.stackexchange.com/questions/269997/two-representations-of-the-prime-counting-function/291201#291201
-J_error <- function(x, y = 10) {
-  J_mu(x) -
-    sum(secondary_terms(x, y))
-  #sum(secondary_terms(x, y)) - log(2) +
-  #integral(function(t) 1 / (t * (t ^ 2 - 1) * log(t)), x, Inf)
+integral_term <- function(x) {
+  integral(function(t)
+    1 / (t * (t ^ 2 - 1) * log(t)), x, Inf)
 }
 
+# See *Riemann's Zeta Function*, H.M. Edwards, p 34, formula (3)
+# see *Prime Obsession*, p 344
+# See https://mathworld.wolfram.com/RiemannPrimeCountingFunction.html
+J_error <- function(x, depth = 10) {
+  i <- 1        # ith term
+  j <- 0
+  repeat {
+    y <- x ^ (1 / i)  # ith root of x
+    if (y < 2)
+      break
+    j <-
+      j + mobius_mu(i) / i * (li(y) - sum(secondary_terms(y, depth)) - log(2) - integral_term(y))
+    i <- i + 1
+  }
+  j
+}
 
 # Take a look at the results
 prime_cnt$j_mu <- map_dbl(prime_cnt$x, J_mu)
-prime_cnt$j_error <- map_dbl(prime_cnt$x, J_error, 50)
+prime_cnt$j_error <- map_dbl(prime_cnt$x, J_error, 100)
 
 ggplot(prime_cnt[1:50, ], aes(x = x)) +
   #geom_line(aes(y = actual_cnt)) +

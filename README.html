@@ -370,9 +370,9 @@ summary {
 <p>An implementation of Riemann’s hypothesis in R, exploring the relationship of Riemann’s zeta function:</p>
 <p><span class="math display">\[\zeta(s) = \sum_n n^{-s} \tag{1}\]</span></p>
 <p>to prime numbers through his prime counting function:</p>
-<p><span class="math display">\[R(x) = \sum_n \mu(n) \frac{J(\sqrt[n]{x})}{n} \tag{2}\]</span></p>
-<p>where <span class="math inline">\(\mu(n)\)</span> is the Möbius function. And, specifically, how the zeroes of the zeta function (<span class="math inline">\(\rho\)</span>) improve the accuracy of Riemann’s prime counting function:</p>
-<p><span class="math display">\[\pi(x) = \operatorname{R}(x) - \sum_{\rho}\operatorname{R}(x^{\rho}) \tag{3}\]</span></p>
+<p><span class="math display">\[\pi(x) = \sum_n \frac{\mu(n)}{n} J(\sqrt[n]{x}) \tag{2}\]</span></p>
+<p>where <span class="math inline">\(\mu(n)\)</span> is the Möbius function, and <span class="math inline">\(J(x)\)</span> incorporates the zeroes of the zeta function (<span class="math inline">\(\rho\)</span>):</p>
+<p><span class="math display">\[J(x) = \operatorname{li}(x) - \sum_{\rho}^{\infty}\operatorname{li}(x^{\rho}) - \operatorname{log}2 + \int_{x}^{\infty}\frac{1}{t(t^{2}-1)\operatorname{log}t}dt \tag{3}\]</span></p>
 </div>
 
 
