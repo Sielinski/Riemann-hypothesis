@@ -2,7 +2,7 @@ library(pracma)
 library(ggplot2)
 library(purrr)
 library(dplyr)
-
+library(tidyr)
 
 #########################
 ## prime number theorem
@@ -238,8 +238,8 @@ secondary_terms(x, 50) %>% sum()
 secondary_terms(x, 50) %>% plot(type = 'l')
 
 integral_term <- function(x) {
-  integral(function(t)
-    1 / (t * (t ^ 2 - 1) * log(t)), x, Inf)
+  quadinf(function(t)
+    1 / (t * (t ^ 2 - 1) * log(t)), xa = x, xb = Inf)$Q
 }
 
 # See *Riemann's Zeta Function*, H.M. Edwards, p 34, formula (3)
@@ -261,17 +261,16 @@ J_error <- function(x, depth = 10) {
 
 # Take a look at the results
 prime_cnt$j_mu <- map_dbl(prime_cnt$x, J_mu)
-prime_cnt$j_error <- map_dbl(prime_cnt$x, J_error, 100)
+prime_cnt$j_error <- map_dbl(prime_cnt$x, J_error, 500)
 
-ggplot(prime_cnt[1:50, ], aes(x = x)) +
-  #geom_line(aes(y = actual_cnt)) +
-  #geom_line(aes(y = li), color = 'grey') +
-  geom_line(aes(y = Li), color = 'grey') +
-  geom_line(aes(y = pnt), color = 'grey') +
-  geom_step(aes(y = actual_cnt), color = 'blue', alpha = 0.5) +
-  #geom_line(aes(y = j), color = 'purple') +
-  geom_line(aes(y = j_mu), color = 'grey') +
-  geom_line(aes(y = j_error), color = 'red')
+prime_cnt[1:100, ] %>% 
+  select(x, actual_cnt, Li, pnt, j_mu, j_error) %>% 
+  pivot_longer(cols = -'x', names_to = 'counting_function', values_to = 'primes') %>% 
+  ggplot(aes(x = x, y = primes, color = counting_function)) + 
+  geom_line() +
+  #geom_step(aes(y = actual_cnt), color = 'blue', alpha = 0.5) +
+  theme(legend.position="right") +
+  labs(title = 'Prime Counting Functions', y = 'Number of Primes')
 
 
 # Code that I explored trying to calculate the error term
