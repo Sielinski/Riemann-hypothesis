@@ -1,5 +1,5 @@
 # Riemann-hypothesis
-An implementation of Riemann's hypothesis in R, exploring the relationship of Riemann's zeta function: 
+An implementation in R of Riemann's hypothesis, exploring the relationship of Riemann's zeta function: 
 
 <img src="https://latex.codecogs.com/gif.latex?\zeta(s)%20=%20\sum_n%20n^{-s}"/>
 
