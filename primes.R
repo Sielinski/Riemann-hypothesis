@@ -124,6 +124,7 @@ my_zeta <- function(s, n = 10 ^ 6) {
   for (i in 1:n) {
     z <- z + i ^ -s
   }
+  s=(complex(r=0.5, i=1*t));
   return(z)
 }
 
